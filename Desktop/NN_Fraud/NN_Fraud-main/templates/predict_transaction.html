@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Transaction</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            width: 400px; /* kart genişliği */
+            margin-bottom: 20px; /* aralık */
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #6a64f1;
+            color: #fff;
+            border-bottom: none;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 10px 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #07074d;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #536387;
+            margin-bottom: 15px;
+        }
+
+        .list-group-item {
+            background-color: transparent;
+            border: none;
+            font-size: 14px;
+            color: #536387;
+        }
+
+        .list-group-item strong {
+            color: #07074d;
+        }
+    </style>
+</head>
+<body>
+     <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"> <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22  "
+                    fill="currentColor" class="bi bi-credit-card-fill mb-1" viewBox="0 0 16 16">
+                    <path
+                        d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1" />
+                </svg> Credit Card Fraud Detection </a>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Prediction Result:</h2>
+            </div>
+            <div class="card-body">
+                <p>{{ prediction }}</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Features:</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for key, value in features.items() %}
+                    <li class="list-group-item"><strong>{{ key }}:</strong> {{ value }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
