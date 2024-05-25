@@ -7,7 +7,6 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from keras.models import Sequential
 from keras.layers import Dense
 from warnings import filterwarnings
-from keras.models import load_model
 
 # Uyarıları ignore et
 filterwarnings(action='ignore')
@@ -37,10 +36,17 @@ balanced_df = pd.concat([fraud_df, non_fraud_df], ignore_index=True)
 balanced_df.drop(balanced_df["distance_from_last_transaction"].idxmax(), inplace=True)
 
 # Min-max scaling işlemi
+scaling_params = {}
 for column in balanced_df.columns[:-1]:  # 'fraud' sütununu dışarıda bırak
     min_val = balanced_df[column].min()
     max_val = balanced_df[column].max()
+    scaling_params[column] = {'min': min_val, 'max': max_val}
     balanced_df[column] = (balanced_df[column] - min_val) / (max_val - min_val)
+
+# Save scaling parameters to a text file
+with open('nn_scaling_params.txt', 'w') as f:
+    for column, params in scaling_params.items():
+        f.write(f"{column},{params['min']},{params['max']}\n")
 
 X = balanced_df.drop(columns=['fraud'])
 y = balanced_df['fraud']
@@ -87,7 +93,6 @@ plt.xticks([0.5, 1.5], ['Non-Fraud', 'Fraud'])
 plt.yticks([0.5, 1.5], ['Non-Fraud', 'Fraud'])
 plt.show()
 
-
 # Modelin eğitim ve doğrulama (validation) setlerindeki performansını ölçme
 train_loss = history.history['loss']
 val_loss = history.history['val_loss']
@@ -99,9 +104,6 @@ train_data_info = f"Training Data: Total {len(y_train)}, Fraud {sum(y_train)}, N
 val_data_info = f"Validation Data: Total {len(y_validation)}, Fraud {sum(y_validation)}, Non-Fraud {len(y_validation) - sum(y_validation)}"
 test_data_info = f"Test Data: Total {len(y_test)}, Fraud {sum(y_test)}, Non-Fraud {len(y_test) - sum(y_test)}"
 
-
-
-
 # Loss plot
 plt.figure(figsize=(6, 4))
 plt.plot(train_loss, label='Train Loss')
@@ -110,7 +112,6 @@ plt.title('Train and Validation Loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
-
 plt.tight_layout()
 plt.show()
 
@@ -137,6 +138,6 @@ print(train_data_info)
 print(val_data_info)
 print(test_data_info)
 
-# Modeli kaydetme
+# Save the model
 #model.save("fraud_detection_model.h5")
-print("Model saved as 'fraud_detection_model.h5")
+#print("Model saved as 'fraud_detection_model.h5'")

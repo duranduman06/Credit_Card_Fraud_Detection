@@ -189,27 +189,24 @@
         <div class="formbold-form-wrapper bg-light rounded">
             <form action="/add_client" method="POST">
                 <div class="formbold-form-title">
-                    <h2 class="">Fraud Detection</h2>
-                    <p>
-                        Please Enter your Transaction Information
-                    </p>
                 </div>
                 <div class="formbold-input-flex">
                     <div>
                         <label for="name" class="formbold-form-label">Name:</label>
                         <input type="text" id="name" name="name" class="formbold-form-input">
                     </div>
-                    <div>
-                        <label for="homelocationX" class="formbold-form-label">Home Location X:</label>
-                        <input type="text" id="homelocationX" name="homelocationX" class="formbold-form-input">
+<div>
+                            <label for="homelocationX" class="formbold-form-label">Home Location X:</label>
+                            <input type="number" id="homelocationX" name="homelocationX" class="formbold-form-input" min="-90" max="90" step="any">
+                        </div>
                     </div>
-                </div>
-                <div class="formbold-input-flex">
-                    <div>
-                        <label for="homelocationY" class="formbold-form-label">Home Location Y:</label>
-                        <input type="text" id="homelocationY" name="homelocationY" class="formbold-form-input">
-                    </div>
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label for="homelocationY" class="formbold-form-label">Home Location Y:</label>
+                            <input type="number" id="homelocationY" name="homelocationY" class="formbold-form-input" min="-180" max="180" step="any">
+                        </div>
                     <!-- Ek inputlar buraya eklenebilir -->
+
                 </div>
                 <input type="submit" value="Submit" class="formbold-btn">
             </form>

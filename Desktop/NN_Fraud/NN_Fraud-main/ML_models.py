@@ -8,7 +8,6 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
-
 from warnings import filterwarnings
 
 # Uyarıları ignore et
@@ -34,16 +33,14 @@ print("fraud_count", fraud_count)
 print("non-fraud_count", non_fraud_count, "\n")
 non_fraud_df = non_fraud_df.sample(n=fraud_count, random_state=42)
 
-
 # Eşitlenmiş veri setini oluşturma
 balanced_df = pd.concat([fraud_df, non_fraud_df], ignore_index=True)
 
 # Outlier Değeri silme işlemi
-balanced_df.drop(balanced_df["distance_from_last_transaction"].idxmax(),inplace= True)
-print(balanced_df.describe(),"\n")
-print(balanced_df.info(),"\n")
-print(balanced_df.isnull().sum(),"\n")
-
+balanced_df.drop(balanced_df["distance_from_last_transaction"].idxmax(), inplace=True)
+print(balanced_df.describe(), "\n")
+print(balanced_df.info(), "\n")
+print(balanced_df.isnull().sum(), "\n")
 
 # Balanced dataset için dağılım grafiği
 plt.figure(figsize=(6, 4))
@@ -69,10 +66,17 @@ plt.tight_layout()
 plt.show()
 
 # Min-max scaling işlemi
+scaling_params = {}
 for column in balanced_df.columns[:-1]:  # 'fraud' sütununu dışarıda bırak
     min_val = balanced_df[column].min()
     max_val = balanced_df[column].max()
+    scaling_params[column] = {'min': min_val, 'max': max_val}
     balanced_df[column] = (balanced_df[column] - min_val) / (max_val - min_val)
+
+# Save scaling parameters to a text file
+with open('scaling_params.txt', 'w') as f:
+    for column, params in scaling_params.items():
+        f.write(f"{column},{params['min']},{params['max']}\n")
 
 X = balanced_df.drop(columns=['fraud'])
 y = balanced_df['fraud']
@@ -82,7 +86,6 @@ fraud_count = y.sum()  # fraud etiketlerinin toplam sayısı
 non_fraud_count = len(y) - fraud_count  # non-fraud etiketlerinin toplam sayısı
 print(f"Toplam 'fraud' (1) örneği sayısı: {fraud_count}")
 print(f"Toplam 'non-fraud' (0) örneği sayısı: {non_fraud_count}")
-
 
 # Fonksiyonlar
 def evaluate_model(model, model_name, X, y, n_splits=10, random_state=42):
@@ -174,9 +177,9 @@ def evaluate_model(model, model_name, X, y, n_splits=10, random_state=42):
     print(best_cm)
 
     # Modeli .pkl dosyası olarak kaydetme
-    filename = f"{model_name}_best_model.pkl"
-    joblib.dump(best_model, filename)
-    print(f"Best Model saved as {filename}")
+    #filename = f"{model_name}_best_model.pkl"
+    #joblib.dump(best_model, filename)
+    #print(f"Best Model saved as {filename}")
 
     return best_model
 

@@ -1,0 +1,7 @@
+distance_from_home,0.0246019144139403,10632.723672241103
+distance_from_last_transaction,0.0004073222655557,2222.757992507184
+ratio_to_median_purchase_price,0.0074267049640276,266.6896921285279
+repeat_retailer,0.0,1.0
+used_chip,0.0,1.0
+used_pin_number,0.0,1.0
+online_order,0.0,1.0
